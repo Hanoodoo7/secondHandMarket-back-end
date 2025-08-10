@@ -1,7 +1,8 @@
 // controllers/users.js
 
 const express = require('express');
-
+const express = require('express');
+const verifyToken = require('../middleware/verify-token')
 const router = express.Router();
 const User = require('../models/user');
 
