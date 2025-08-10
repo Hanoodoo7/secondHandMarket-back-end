@@ -1,7 +1,6 @@
 /* eslint-disable prefer-destructuring */
 const jwt = require('jsonwebtoken');
 const express = require('express');
-const verify = 
 const router = express.Router();
 
 router.get('/sign-token', (req, res) => {
