@@ -66,13 +66,12 @@ const itemSchema = new Schema({
     ref: 'User',
     required: true
   },
-  { 
   status: {
     type: String,
     enum: ['Available', 'Pending', 'Sold'],
     default: 'Available'
   },
-  comments: [commentSchema] 
+  comments: [commentSchema]
 }, { timestamps: true });
 
 const Item = mongoose.model('Item', itemSchema);
