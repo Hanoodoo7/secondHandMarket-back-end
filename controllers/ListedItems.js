@@ -16,6 +16,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+
 router.get('/:itemId', async (req, res) => {
   try {
     const listedItem = await ListedItem.findById(req.params.itemId).populate('seller');
@@ -32,6 +33,7 @@ router.use(verifyToken);
 router.post('/', async (req, res) => {
   try {
     req.body.seller = req.user._id;
+
     const listedItem = await ListedItem.create(req.body);
     listedItem._doc.seller = req.user;
     res.status(201).json(listedItem);
@@ -42,6 +44,7 @@ router.post('/', async (req, res) => {
 });
 
 // edit item -->
+
 router.put('/:itemId', async (req, res) => {
   try {
     const listedItem = await ListedItem.findById(req.params.itemId);
