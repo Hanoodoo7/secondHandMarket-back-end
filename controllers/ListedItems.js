@@ -5,7 +5,6 @@ const router = express.Router();
 
 // ========== Public Routes ===========
 
-
 router.get('/', async (req, res) => {
   try {
     const listedItems = await ListedItem.find({})
@@ -30,11 +29,12 @@ catch(error){
 // ========= Protected Routes =========
 router.use(verifyToken);
 
+// new item -->
 router.post('/', async (req, res) => {
   try {
-    req.body.author = req.user._id;
+    req.body.seller = req.user._id;
     const listedItems = await ListedItem.create(req.body);
-    listedItems._doc.author = req.user;
+    listedItems._doc.seller = req.user;
     res.status(201).json(listedItems);
   } catch (error) {
     console.log(error);
@@ -42,31 +42,37 @@ router.post('/', async (req, res) => {
   }
 });
 
+// edit item -->
+router.put('/:itemId', async (req,res)=>{
+  try{const listedItems = ListedItem.findById(req.params.itemId)
+if(!listedItems.seller.equals(req.user._id)){
+  return res.status(403).send('You are not allowed to edit')
+}
+const updatedItem = await ListedItem.findByIdAndUpdate(
 
-
-
-
-
-
-
-
-
-
-
-
+  req.params.itemId,
+  req.body,
+  {new:true}
+)
+updatedItem._doc.seller = req.body
+}
+  catch(error){
+     res.status(500).json(error);
+  }
+})
 
 // delete item -->
 router.delete('/:itemId', async (req, res) => {
     try {
         const ListedItems = await ListedItem.findById(req.params.ListedItemsId)
 
-            if(!ListedItems.author.equals(req.user._id)){
+            if(!ListedItems.seller.equals(req.user._id)){
                 return res.status(403).send("cant do that my G😬🤣!")
             }
 
             const deletedListedItem = await ListedItems.findByIdAndDelete(req.params.ListedItemsId)
             res.status(200).json(deletedListedItem)
-    } catch (err) {
+    } catch (error) {
         res.status(500).json(error)
     }
 })
