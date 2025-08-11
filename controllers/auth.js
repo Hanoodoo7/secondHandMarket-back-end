@@ -10,16 +10,16 @@ const saltRounds = 12;
 
 router.post('/sign-up', async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password ,email} = req.body;
 
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({ username ,email});
 
     if (existingUser) {
       return res.status(409).json({ err: 'Username or Password is invalid' });
     }
 
     const hashedPassword = bcrypt.hashSync(password, saltRounds);
-    const newUser = await User.create({ username, hashedPassword });
+    const newUser = await User.create({ username, hashedPassword ,email });
 
     const payload = {
       username: newUser.username,
