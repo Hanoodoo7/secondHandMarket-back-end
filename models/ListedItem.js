@@ -66,6 +66,7 @@ const itemSchema = new Schema({
     ref: 'User',
     required: true
   },
+  { 
   status: {
     type: String,
     enum: ['Available', 'Pending', 'Sold'],
