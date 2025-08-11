@@ -33,4 +33,33 @@ router.post('/', async (req, res) => {
   }
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.delete('/:ListedItemsId', async (req, res) => {
+    try {
+        const ListedItems = await ListedItem.findById(req.params.ListedItemsId)
+
+            if(!ListedItems.author.equals(req.user._id)){
+                return res.status(403).send("cant do that my G😬🤣!")
+            }
+
+            const deletedListedItem = await ListedItems.findByIdAndDelete(req.params.ListedItemsId)
+            res.status(200).json(deletedListedItem)
+    } catch (err) {
+        res.status(500).json(error)
+    }
+})
+
 module.exports = router;
