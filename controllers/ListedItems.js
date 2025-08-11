@@ -3,22 +3,21 @@ const verifyToken = require('../middleware/verify-token.js')
 const ListedItem = require('../models/ListedItems.js')
 const router = express.Router()
 
-router.get('/:listedItemId', async (req, res) => {
+// ========= Protected Routes =========
+router.use(verifyToken)
+
+router.post('/', async (req, res) => {
   try {
-    const ListedItem = await ListedItem.findById(req.params.hootId).populate('author');
-    res.status(200).json(ListedItem);
+    req.body.author = req.user._id;
+    const ListedItem = await ListedItem.create(req.body);
+    ListedItem._doc.author = req.user;
+    res.status(201).json(ListedItem);
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 });
 
-router.get('/', async (req, res) => {
-  try {
-    const ListedItems = await ListedItem.find({})
-      .populate('author')
-      .sort({ createdAt: 'desc' });
-    res.status(200).json(ListedItems);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
+
+
+module.exports = router;
