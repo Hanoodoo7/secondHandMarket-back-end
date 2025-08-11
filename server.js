@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 const dotenv = require('dotenv');
-
 dotenv.config();
 const express = require('express');
 
@@ -13,6 +12,7 @@ const logger = require('morgan');
 const testJwtRouter = require('./controllers/test-jwt');
 const authRouter = require('./controllers/auth');
 const userRouter = require('./controllers/users');
+const ListedItemRouter = require('./controllers/ListedItems')
 
 // Middleware
 const verifyToken = require('./middleware/verify-token');
@@ -32,6 +32,7 @@ app.use(logger('dev'));
 // PUBLIC ROUTES
 app.use('/auth', authRouter);
 app.use('/test-jwt', testJwtRouter);
+app.use('/ListedItems', ListedItemsRouter)
 
 // PROTECTED ROUTES
 app.use(verifyToken);
