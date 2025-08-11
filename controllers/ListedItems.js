@@ -72,19 +72,17 @@ router.delete('/:itemId', async (req, res) => {
 })
 
 // post comment -->
-router.post('/ListedItems/comments', async (req, res) => {
+router.post('/:itemId/comments', async (req, res) => {
 	try {
 		req.body.author = req.user._id
 		const ListedItems = await ListedItems.findById(req.params.ListedItemsId)
 		ListedItems.comments.push(req.body)
 		await ListedItems.save()
 
-		// Find the newly created comment:
 		const newComment = ListedItems.comments[ListedItems.comments.length - 1]
 
 		newComment._doc.author = req.user
 
-		// Respond with the newComment:
 		res.status(201).json(newComment)
 	} catch (error) {
 		res.status(500).json(error)
