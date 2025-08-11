@@ -51,10 +51,6 @@ router.post('/', async (req, res) => {
 
 
 
-
-
-
-
 // delete item -->
 router.delete('/:itemId', async (req, res) => {
     try {
