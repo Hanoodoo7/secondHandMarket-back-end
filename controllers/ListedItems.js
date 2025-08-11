@@ -17,6 +17,15 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/:itemId', async (req,res)=>{
+try{
+const listedItems = await ListedItem.findById(req.params.itemId).populate('author')
+    res.status(200).json(listedItems);
+}
+catch(error){
+ res.status(500).json(error)
+}
+})
 
 // ========= Protected Routes =========
 router.use(verifyToken);
