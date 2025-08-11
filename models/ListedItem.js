@@ -52,11 +52,11 @@ const itemSchema = new Schema({
     enum: ['Never Used', 'Used Once', 'Used']
   },
   images: { type: String, },
-  // seller: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'User',
-  //   required: true
-  // },
+  seller: {
+  type: Schema.Types.ObjectId,
+  ref: 'User',
+  required: true
+   },
   status: {
     type: String,
     enum: ['Available', 'Pending', 'Sold'],
