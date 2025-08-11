@@ -12,7 +12,7 @@ const logger = require('morgan');
 const testJwtRouter = require('./controllers/test-jwt');
 const authRouter = require('./controllers/auth');
 const userRouter = require('./controllers/users');
-const ListedItemRouter = require('./controllers/ListedItems')
+const ListedItemsRouter = require('./controllers/ListedItems')
 
 // Middleware
 const verifyToken = require('./middleware/verify-token');
