@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const listedItems = await ListedItem.find({})
-      .populate('author')
+      .populate('seller')
       .sort({ createdAt: 'desc' });
     res.status(200).json(listedItems);
   } catch (error) {
@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:itemId', async (req,res)=>{
 try{
-const listedItems = await ListedItem.findById(req.params.itemId).populate('author')
+const listedItems = await ListedItem.findById(req.params.itemId).populate('seller')
     res.status(200).json(listedItems);
 }
 catch(error){
