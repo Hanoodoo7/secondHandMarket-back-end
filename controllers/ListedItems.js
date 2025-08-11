@@ -42,12 +42,23 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.put('/:itemId', async (req,res)=>{
+  try{const listedItems = ListedItem.findById(req.params.itemId)
+if(!listedItems.author.equals(req.user._id)){
+  return res.status(403).send('You are not allowed to edit')
+}
+const updatedItem = await ListedItem.findByIdAndUpdate(
 
-
-
-
-
-
+  req.params.itemId,
+  req.body,
+  {new:true}
+)
+updatedItem._doc.author = req.body
+}
+  catch(error){
+     res.status(500).json(error);
+  }
+})
 
 
 
