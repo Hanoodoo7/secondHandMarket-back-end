@@ -10,7 +10,7 @@ const saltRounds = 12;
 
 router.post('/sign-up', async (req, res) => {
   try {
-    const { username, password , email} = req.body;
+    const { username, password ,email} = req.body;
 
     const existingUser = await User.findOne({ username ,email});
 
