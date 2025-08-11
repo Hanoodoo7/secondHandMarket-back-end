@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 const dotenv = require('dotenv');
-
 dotenv.config();
 const express = require('express');
 
@@ -33,7 +32,7 @@ app.use(logger('dev'));
 // PUBLIC ROUTES
 app.use('/auth', authRouter);
 app.use('/test-jwt', testJwtRouter);
-app.use('/ListedItems', ListedItemRouter)
+app.use('/ListedItems', ListedItemsRouter)
 
 // PROTECTED ROUTES
 app.use(verifyToken);
