@@ -51,16 +51,7 @@ const itemSchema = new Schema({
     required: true,
     enum: ['Never Used', 'Used Once', 'Used']
   },
-  images: [{
-    url: {
-      type: String,
-      required: true
-    },
-    public_id: {
-      type: String,
-      required: true
-    }
-  }],
+  images: { type: String, },
   seller: {
     type: Schema.Types.ObjectId,
     ref: 'User',
