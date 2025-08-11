@@ -46,8 +46,8 @@ router.post('/', async (req, res) => {
 
 
 
-
-router.delete('/:ListedItemsId', async (req, res) => {
+// delete item -->
+router.delete('/:itemId', async (req, res) => {
     try {
         const ListedItems = await ListedItem.findById(req.params.ListedItemsId)
 
@@ -61,5 +61,45 @@ router.delete('/:ListedItemsId', async (req, res) => {
         res.status(500).json(error)
     }
 })
+
+// update comment -->
+router.put("/:itemId/comments/:commentId", verifyToken, async (req, res) => {
+  try {
+    const listedItems = await ListedItem.findById(req.params.itemId);
+    const comment = listedItems.comments.id(req.params.commentId);
+
+    if (comment.author.toString() !== req.user._id) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to edit this comment" });
+    }
+
+    comment.text = req.body.text;
+    await listedItems.save();
+    res.status(200).json({ message: "Comment updated successfully" });
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+});
+
+// delete a comment -->
+router.delete("/:itemId/comments/:commentId", verifyToken, async (req, res) => {
+  try {
+    const listedItems = await ListedItem.findById(req.params.itemId);
+    const comment = listedItems .comments.id(req.params.commentId);
+
+    if (comment.author.toString() !== req.user._id) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to edit this comment" });
+    }
+
+    listedItems.comments.remove({ _id: req.params.commentId });
+    await listedItems.save();
+    res.status(200).json({ message: "Comment deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+});
 
 module.exports = router;
