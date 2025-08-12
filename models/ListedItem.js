@@ -51,7 +51,10 @@ const itemSchema = new Schema({
     required: true,
     enum: ['Never Used', 'Used Once', 'Used']
   },
-  images: { type: String, },
+
+images: [{ 
+  type: String 
+}],
 
    seller: {
    type: Schema.Types.ObjectId,
