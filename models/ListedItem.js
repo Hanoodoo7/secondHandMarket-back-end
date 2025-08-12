@@ -51,7 +51,10 @@ const itemSchema = new Schema({
     required: true,
     enum: ['Never Used', 'Used Once', 'Used']
   },
-  images: { type: String, },
+
+images: [{ 
+  type: String 
+}],
 
    seller: {
    type: Schema.Types.ObjectId,
@@ -67,5 +70,5 @@ const itemSchema = new Schema({
   comments: [commentSchema]
 }, { timestamps: true });
 
-const Item = mongoose.model('Item', itemSchema);
-module.exports = Item;
+const item = mongoose.model('item', itemSchema);
+module.exports = item;
