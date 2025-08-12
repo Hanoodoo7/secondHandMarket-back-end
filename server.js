@@ -30,7 +30,7 @@ app.use(logger('dev'));
 
 // PUBLIC ROUTES
 app.use('/auth', authRouter);
-app.use('/item', ListedItemsRouter)
+app.use('/items', ListedItemsRouter)
 
 // PROTECTED ROUTES
 app.use(verifyToken);

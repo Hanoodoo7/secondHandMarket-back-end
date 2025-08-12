@@ -67,5 +67,5 @@ const itemSchema = new Schema({
   comments: [commentSchema]
 }, { timestamps: true });
 
-const Item = mongoose.model('Item', itemSchema);
-module.exports = Item;
+const item = mongoose.model('item', itemSchema);
+module.exports = item;
