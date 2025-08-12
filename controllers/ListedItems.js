@@ -19,7 +19,9 @@ router.get('/', async (req, res) => {
 
 router.get('/:itemId', async (req, res) => {
   try {
-    const listedItem = await ListedItem.findById(req.params.itemId).populate('seller');
+    const listedItem = await ListedItem.findById(req.params.itemId)
+      .populate('seller')
+      .populate('comments.author');
     res.status(200).json(listedItem);
   } catch (error) {
     res.status(500).json(error);
