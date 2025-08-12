@@ -67,6 +67,7 @@ router.delete('/:itemId', async (req, res) => {
     if (!listedItem.seller.equals(req.user._id)) {
       return res.status(403).send("You don't have permission to delete this item");
     }
+    
     const deletedListedItem = await ListedItem.findByIdAndDelete(req.params.itemId);
     res.status(200).json(deletedListedItem);
   } catch (error) {
