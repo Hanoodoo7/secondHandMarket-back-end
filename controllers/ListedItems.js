@@ -1,11 +1,16 @@
+const multer = require('multer');
+const { storage } = require('../config/cloudinary');
+const upload = multer({ storage });
 const express = require('express');
 const verifyToken = require('../middleware/verify-token.js');
 const ListedItem = require('../models/ListedItem.js');
 const router = express.Router();
 
+
 // ========== Public Routes ===========
 
 router.get('/', async (req, res) => {
+    console.log('req', req)
   try {
     const listedItems = await ListedItem.find({})
       .populate('seller')
@@ -32,18 +37,33 @@ router.get('/:itemId', async (req, res) => {
 router.use(verifyToken);
 
 // new item -->
-router.post('/', async (req, res) => {
-  try {
-    req.body.seller = req.user._id;
+// router.post('/', async (req, res) => {
+//   try {
+//     req.body.seller = req.user._id;
 
-    const listedItem = await ListedItem.create(req.body);
-    listedItem._doc.seller = req.user;
-    res.status(201).json(listedItem);
+//     const listedItem = await ListedItem.create(req.body);
+//     listedItem._doc.seller = req.user;
+//     res.status(201).json(listedItem);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json(error);
+//   }
+// });
+
+router.post('/', upload.array('images', 5), async (req, res) => {
+  try {
+    const imageUrls = req.files.map(file => file.path);
+    const newItem = new ListedItem({
+      ...req.body,
+      images: imageUrls
+    });
+    await newItem.save();
+    res.json(newItem);
   } catch (error) {
-    console.log(error);
-    res.status(500).json(error);
+    res.status(500).json({ error: error.message });
   }
 });
+
 
 // edit item -->
 
