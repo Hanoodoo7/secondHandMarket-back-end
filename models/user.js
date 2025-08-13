@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
       required: true,
+      unique: true,
+      trim: true
     },
     hashedPassword: {
       type: String,
@@ -13,7 +16,27 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
+      trim: true,
+      lowercase: true
     },
+    avatar: {
+      type: String,
+      default: "assets/default.jpg"
+    },
+    bio: {
+      type: String,
+      maxlength: 500,
+      default: ""
+    },
+    location: {
+      type: String,
+      default: ""
+    },
+    contactInfo: {
+      type: String,
+      default: ""
+    }
   },
   {
     timestamps: true,
