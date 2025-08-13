@@ -42,9 +42,10 @@ const itemSchema = new Schema({
     ]
   },
   price: {
-    type: String,
-    required: true
-    },
+    type: Number,
+    required: true,
+    min: 0
+  },
   condition: {
     type: String,
     required: true,
@@ -59,6 +60,10 @@ images: [{
    type: Schema.Types.ObjectId,
     ref: 'User',
     required: true
+   },
+
+   contact: {
+   type: String
    },
 
   status: {
