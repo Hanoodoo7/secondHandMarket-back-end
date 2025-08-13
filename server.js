@@ -31,11 +31,11 @@ app.use(logger('dev'));
 // PUBLIC ROUTES
 app.use('/auth', authRouter);
 app.use('/items', ListedItemsRouter)
-app.use('/profile', profileRouter);
 
 // PROTECTED ROUTES
 app.use(verifyToken);
 app.use('/users', userRouter);
+app.use('/profile', profileRouter);
 
 app.listen(3000, () => {
   console.log('The express app is ready!');
