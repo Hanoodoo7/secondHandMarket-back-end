@@ -3,8 +3,7 @@ const router = express.Router();
 const User = require('../models/user');
 
 
-
-router.get("/profile", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const userId = req.user._id;
     const userItems = await ListedItem.find({ seller: userId }).populate(
