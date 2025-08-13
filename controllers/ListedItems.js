@@ -1,25 +1,43 @@
-const multer = require('multer');
-const { storage } = require('../config/cloudinary');
-const upload = multer({ storage });
 const express = require('express');
 const verifyToken = require('../middleware/verify-token.js');
 const ListedItem = require('../models/ListedItem.js');
+const multer = require('multer');
+const { storage } = require('../config/cloudinary');
+const upload = multer({ storage });
 const router = express.Router();
 
 
 // ========== Public Routes ===========
 
-router.get('/', async (req, res) => {
-    console.log('req', req)
+// router.get('/', async (req, res) => {
+//     console.log('req', req)
+//   try {
+//     const listedItems = await ListedItem.find({})
+//       .populate('seller')
+//       .sort({ createdAt: 'desc' });
+//     res.status(200).json(listedItems);
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// });
+
+router.post('/', upload.array('images', 5), async (req, res) => {
   try {
-    const listedItems = await ListedItem.find({})
-      .populate('seller')
-      .sort({ createdAt: 'desc' });
-    res.status(200).json(listedItems);
+    req.body.seller = req.user._id;
+    const imageUrls = req.files.map(file => file.path);
+
+    const listedItem = await ListedItem.create({
+      ...req.body,
+      images: imageUrls
+    });
+    listedItem._doc.seller = req.user;
+    res.status(201).json(listedItem);
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 });
+
 
 
 router.get('/:itemId', async (req, res) => {
@@ -36,33 +54,20 @@ router.get('/:itemId', async (req, res) => {
 // ========= Protected Routes =========
 router.use(verifyToken);
 
-// new item -->
-// router.post('/', async (req, res) => {
-//   try {
-//     req.body.seller = req.user._id;
-
-//     const listedItem = await ListedItem.create(req.body);
-//     listedItem._doc.seller = req.user;
-//     res.status(201).json(listedItem);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json(error);
-//   }
-// });
-
-router.post('/', upload.array('images', 5), async (req, res) => {
+    // new item -->
+router.post('/', async (req, res) => {
   try {
-    const imageUrls = req.files.map(file => file.path);
-    const newItem = new ListedItem({
-      ...req.body,
-      images: imageUrls
-    });
-    await newItem.save();
-    res.json(newItem);
+    req.body.seller = req.user._id;
+
+    const listedItem = await ListedItem.create(req.body);
+    listedItem._doc.seller = req.user;
+    res.status(201).json(listedItem);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.log(error);
+    res.status(500).json(error);
   }
 });
+
 
 
 // edit item -->
