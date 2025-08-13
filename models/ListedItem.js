@@ -42,10 +42,9 @@ const itemSchema = new Schema({
     ]
   },
   price: {
-    type: Number,
-    required: true,
-    min: 0
-  },
+    type: String,
+    required: true
+    },
   condition: {
     type: String,
     required: true,
