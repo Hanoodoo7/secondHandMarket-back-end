@@ -12,7 +12,7 @@ const logger = require('morgan');
 const authRouter = require('./controllers/auth');
 const userRouter = require('./controllers/users');
 const ListedItemsRouter = require('./controllers/ListedItems')
-
+const profileRouter = require('./controllers/profile')
 // Middleware
 const verifyToken = require('./middleware/verify-token');
 
@@ -31,6 +31,7 @@ app.use(logger('dev'));
 // PUBLIC ROUTES
 app.use('/auth', authRouter);
 app.use('/items', ListedItemsRouter)
+app.use('/profile', profileRouter);
 
 // PROTECTED ROUTES
 app.use(verifyToken);
