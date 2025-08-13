@@ -66,6 +66,7 @@ const itemSchema = new Schema({
     enum: ['Available', 'Pending', 'Sold'],
     default: 'Available'
   },
+  contact: {type: String} , 
   comments: [commentSchema]
 }, { timestamps: true });
 

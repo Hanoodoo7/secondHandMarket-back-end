@@ -15,6 +15,11 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
+      validate: {
+    validator: function(v) {
+      return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(v);
+    }
+  },
       required: true,
       unique: true,
       trim: true,
